@@ -12,4 +12,6 @@ public interface IProductsService {
   public void deleteById(Long id);
 
   public List<Products> findAll();
+
+  public List<Products> findAvalaible();
 }
