@@ -9,75 +9,39 @@ import com.hbourgeot.todotech.entities.Customers;
 public interface ICustomersRepo extends CrudRepository<Customers, Long>{
 
   @Override
-  default long count() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'count'");
-  }
+  long count();
 
   @Override
-  default void delete(Customers entity) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'delete'");
-  }
+  void delete(Customers entity);
 
   @Override
-  default void deleteAll() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
-  }
+  void deleteAll();
 
   @Override
-  default void deleteAll(Iterable<? extends Customers> entities) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
-  }
+  void deleteAll(Iterable<? extends Customers> entities);
 
   @Override
-  default void deleteAllById(Iterable<? extends Long> ids) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteAllById'");
-  }
+  void deleteAllById(Iterable<? extends Long> ids);
 
   @Override
-  default void deleteById(Long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
-  }
+  void deleteById(Long id);
 
   @Override
-  default boolean existsById(Long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'existsById'");
-  }
+  boolean existsById(Long id);
 
   @Override
-  default Iterable<Customers> findAll() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-  }
+  Iterable<Customers> findAll();
 
   @Override
-  default Iterable<Customers> findAllById(Iterable<Long> ids) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findAllById'");
-  }
+  Iterable<Customers> findAllById(Iterable<Long> ids);
 
   @Override
-  default Optional<Customers> findById(Long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findById'");
-  }
+  Optional<Customers> findById(Long id);
 
   @Override
-  default <S extends Customers> S save(S entity) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'save'");
-  }
+  <S extends Customers> S save(S entity);
 
   @Override
-  default <S extends Customers> Iterable<S> saveAll(Iterable<S> entities) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'saveAll'");
-  }
+  <S extends Customers> Iterable<S> saveAll(Iterable<S> entities);
   
 }

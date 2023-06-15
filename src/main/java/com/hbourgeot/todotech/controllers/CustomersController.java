@@ -26,7 +26,7 @@ public class CustomersController {
     return customerService.findAll();
   }
 
-  @GetMapping(value = "/<id>")
+  @GetMapping(value = "/{id}")
   public Customers getCustomerById(@PathVariable Long id) {
     return customerService.findById(id);
   }

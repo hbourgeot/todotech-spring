@@ -30,11 +30,11 @@ public class ProductsController {
   }
   
   @GetMapping(value="/all")
-  public List<Products> getAllProducts(@RequestParam String param) {
+  public List<Products> getAllProducts() {
       return (List<Products>) productsService.findAll();
   }
   
-  @GetMapping(value="<id>")
+  @GetMapping(value = "/{id}")
   public Products getProductById(@PathVariable Long id) {
     return productsService.findById(id);
   }
