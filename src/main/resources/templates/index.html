@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmins:th="http://www.thymeleaf.org">
+  <head th:insert="layouts/head" />
+  <body>
+    <header th:insert="layouts/header"></header>
+    <div class="container col-xxl-8 px-4 py-5">
+      <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+          <img
+            src="static/hero.jpg"
+            class="d-block mx-lg-auto img-fluid"
+            alt="Tech Products"
+            width="700"
+            height="500"
+            loading="lazy"
+          />
+        </div>
+        <div class="col-lg-6">
+          <h1 class="display-5 fw-bold lh-1 mb-3">
+            TodoTech
+          </h1>
+          <p class="lead">
+            Latest Technology at the best price of the market. Shop iPads, iPhones, MacBooks, Videogame consoles, Android, Windows, Gadgets, and more, at a modic price.
+          </p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">
+              Primary
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4">
+              Default
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
