@@ -5,7 +5,7 @@ import com.hbourgeot.todotech.entities.User;
 public interface IUserService {
   public void save(User customer);
 
-  public User findById(String id);
+  public boolean findById(String id, String password);
 
   public void deleteById(String id);
 }

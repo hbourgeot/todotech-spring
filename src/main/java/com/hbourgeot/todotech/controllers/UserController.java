@@ -1,9 +1,5 @@
 package com.hbourgeot.todotech.controllers;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hbourgeot.todotech.entities.User;
 import com.hbourgeot.todotech.services.IUserService;
+
 
 @RestController
 @RequestMapping(value = "/api/users")
@@ -21,9 +18,9 @@ public class UserController {
     this.userService = uService;
   }
 
-  @GetMapping(value = "/{id}")
-  public User getCustomerById(@PathVariable String id) {
-    return userService.findById(id);
+  @PostMapping(value = "/login")
+  public boolean getCustomerById(String username, String password) {
+    return userService.findById(username, password);
   }
 
   @PostMapping(value = "/add")
