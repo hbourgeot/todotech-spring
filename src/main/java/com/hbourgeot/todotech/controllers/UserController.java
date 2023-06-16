@@ -1,5 +1,6 @@
 package com.hbourgeot.todotech.controllers;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,9 @@ public class UserController {
   }
 
   @PostMapping(value = "/login")
-  public boolean getCustomerById(String username, String password) {
-    return userService.findById(username, password);
+  public boolean getCustomerById(HttpEntity<User> user) {
+    System.out.println(user.getBody().getUsername() + " " + user.getBody().getPassword());
+    return userService.findById(user.getBody().getUsername(), user.getBody().getPassword());
   }
 
   @PostMapping(value = "/add")

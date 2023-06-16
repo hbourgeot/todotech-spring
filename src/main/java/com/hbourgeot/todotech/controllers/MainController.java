@@ -5,12 +5,15 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 
-import com.hbourgeot.todotech.TodotechApplication;
 import com.hbourgeot.todotech.entities.User;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class MainController {
@@ -24,25 +27,26 @@ public class MainController {
   }
 
   @GetMapping(value = "/login")
-  public String login() {
+  public String login(Model model) {
+    model.addAttribute("title", "Login - TodoTech");
+    model.addAttribute("user", new User());
     return "login";
   }
 
   @PostMapping(value = "/login")
-  public String postLogin(String username, String password) {
+  public String postLogin(Model model, @Valid @ModelAttribute(name = "user") User user) {
     HttpHeaders headers = new HttpHeaders();
-    User user = new User();
-    user.setUsername(username);
-    user.setPassword(password);
     HttpEntity<User> entity = new HttpEntity<User>(user, headers);
-    Boolean result = restTemplate.exchange("http://localhost:8080/api/login", HttpMethod.POST, entity, Boolean.class)
+    Boolean result = restTemplate.exchange("http://localhost:8080/api/users/login", HttpMethod.POST, entity, Boolean.class)
         .getBody();
     
     if (result.booleanValue()) {
       return "redirect:dash";
     }
+
+    model.addAttribute("error", "Error submiting");
     
-    return "redirect:index";
+    return "login";
   }
 
   @GetMapping(value = "/dash")
