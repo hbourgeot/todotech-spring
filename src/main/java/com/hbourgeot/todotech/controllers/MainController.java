@@ -10,15 +10,14 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainController {
 
-  private static String authorizationRequestBaseUri
-      = "oauth2/authorization";
-    Map<String, String> oauth2AuthenticationUrls
-      = new HashMap<>();
+  private static String authorizationRequestBaseUri = "oauth2/authorization";
+  Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
 
   @Autowired
   private ClientRegistrationRepository clientRegistrationRepository;
@@ -32,50 +31,66 @@ public class MainController {
   public String getLoginPage(Model model) {
     Iterable<ClientRegistration> clientRegistrations = null;
     ResolvableType type = ResolvableType.forInstance(clientRegistrationRepository)
-      .as(Iterable.class);
-    if (type != ResolvableType.NONE && 
-      ClientRegistration.class.isAssignableFrom(type.resolveGenerics()[0])) {
-        clientRegistrations = (Iterable<ClientRegistration>) clientRegistrationRepository;
+        .as(Iterable.class);
+    if (type != ResolvableType.NONE &&
+        ClientRegistration.class.isAssignableFrom(type.resolveGenerics()[0])) {
+      clientRegistrations = (Iterable<ClientRegistration>) clientRegistrationRepository;
     }
 
-    clientRegistrations.forEach(registration -> 
-      oauth2AuthenticationUrls.put(registration.getClientName(), 
-      authorizationRequestBaseUri + "/" + registration.getRegistrationId()));
+    clientRegistrations.forEach(registration -> oauth2AuthenticationUrls.put(registration.getClientName(),
+        authorizationRequestBaseUri + "/" + registration.getRegistrationId()));
     model.addAttribute("urls", oauth2AuthenticationUrls);
 
     return "login";
   }
-  /*
-   * @GetMapping(value = "/login")
-   * public String login(Model model) {
-   * model.addAttribute("title", "Login - TodoTech");
-   * return "login";
-   * }
-   */
-  /*
-   * @PostMapping(value = "/login")
-   * public String postLogin(Model model, @Valid @ModelAttribute(name = "user")
-   * User user) {
-   * HttpHeaders headers = new HttpHeaders();
-   * HttpEntity<User> entity = new HttpEntity<User>(user, headers);
-   * Boolean result =
-   * restTemplate.exchange("http://localhost:8080/api/users/login",
-   * HttpMethod.POST, entity, Boolean.class)
-   * .getBody();
-   * 
-   * if (result.booleanValue()) {
-   * return "redirect:dash";
-   * }
-   * 
-   * model.addAttribute("error", "Error submiting");
-   * 
-   * return "login";
-   * }
-   */
 
   @GetMapping(value = "/dash")
-  @ResponseBody
   public String dash() {
-    return "holaaa. Tas seguro";
+    return "dash";
+  }
+
+  @GetMapping(value = "/dash/products")
+  public String products() {
+    return "all-products";
+  }
+
+  @GetMapping(value = "/dash/customers")
+  public String customers() {
+    return "all-customers";
+  }
+
+  @GetMapping(value = "/dash/orders")
+  public String orders() {
+    return "all-orders";
+  }
+
+  @GetMapping(value = "/dash/products/add")
+  public String addProducts() {
+    return "add-product";
+  }
+
+  @GetMapping(value = "/dash/customers/add")
+  public String addcustomers() {
+    return "add-customer";
+  }
+
+  @GetMapping(value = "/dash/orders/add")
+  public String addorders() {
+    return "add-order";
+  }
+
+  @GetMapping(value = "/dash/products/{id}")
+  public String getProductsById(@PathVariable Long id) {
+    return "add-product";
+  }
+
+  @GetMapping(value = "/dash/customers/{id}")
+  public String getcustomersById(@PathVariable Long id) {
+    return "add-customer";
+  }
+
+  @GetMapping(value = "/dash/orders/{id}")
+  public String getordersById(@PathVariable Long id) {
+    return "add-order";
   }
 }

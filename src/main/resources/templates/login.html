@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmins:th="http://www.thymeleaf.org">
-  <head th:insert="layouts/head" />
-  <body>
-    <header th:insert="layouts/header"></header>
-    <section class="d-flex vh-100 align-items-center py-4 bg-body-tertiary">
-      <main class="form-signin m-auto">
-        <img src="static/logo.svg" alt="TodoTech Logo" />
-        <h1 class="h3 mb-10 fw-normal">Log in</h1>
-        <p th:each="url : ${urls}">
-          <a th:text="${url.key}" th:href="${url.value}">Client</a>
+<head th:insert="layouts/head"/>
+<body>
+<header th:insert="layouts/header"></header>
+<section class="d-flex vh-100 align-items-center py-4 bg-body-tertiary">
+    <main class="form-signin m-auto">
+        <img src="static/logo.svg" alt="TodoTech Logo"/>
+        <h1 class="h3 mb-10 fw-normal">Log in with:</h1>
+        <p th:each="url : ${urls}" class="d-flex flex-column w-100 h-100">
+            <a th:href="${url.value}" th:class="${url.key == 'Google' ? 'text-bg-danger p-1 gap-3 d-flex justify-content-center align-items-center rounded-4' : 'text-bg-dark gap-3 p-1 d-flex justify-content-center align-items-center rounded-4'}">
+                <i th:class="${'bi bi-' + url.key.toLowerCase()}" style="font-size: 2rem;"></i>
+                <span th:text="${url.key}">Client</span>
+            </a>
         </p>
-      </main>
-    </section>
-  </body>
+    </main>
+</section>
+</body>
 </html>
