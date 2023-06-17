@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,12 +33,12 @@ public class OrdersController {
   }
 
   @PostMapping(value = "/add")
-  public void saveCustomer(Orders order) {
+  public void saveCustomer(@RequestBody Orders order) {
     ordersService.save(order);
   }
 
   @PutMapping(value = "/modify")
-  public void modifyCustomer(Orders order) {
+  public void modifyCustomer(@RequestBody Orders order) {
     ordersService.save(order);
   }
 }

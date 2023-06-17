@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainController {
@@ -81,16 +80,16 @@ public class MainController {
 
   @GetMapping(value = "/dash/products/{id}")
   public String getProductsById(@PathVariable Long id) {
-    return "add-product";
+    return "get-product";
   }
 
   @GetMapping(value = "/dash/customers/{id}")
   public String getcustomersById(@PathVariable Long id) {
-    return "add-customer";
+    return "get-customer";
   }
 
   @GetMapping(value = "/dash/orders/{id}")
   public String getordersById(@PathVariable Long id) {
-    return "add-order";
+    return "get-order";
   }
 }

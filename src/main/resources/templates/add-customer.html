@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmins:th="http://www.thymeleaf.org">
+<head th:insert="layouts/head"/>
+<body>
+<section class="d-flex vh-100 align-items-center py-4 bg-body-tertiary">
+    <aside th:insert="layouts/sidebar"></aside>
+    <main class="container mt-5">
+    <h1>Formulario</h1>
+    <form>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+            <label for="nombre">Nombre</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="correo" name="correo" required>
+            <label for="correo">Correo electrónico</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="telefono" name="telefono" pattern="[0-9]{11}" required>
+            <label for="telefono">Número de teléfono</label>
+            <small class="form-text text-muted">Ingrese un número de teléfono de 11 dígitos.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+    </main>
+</section>
+</body>
+</html>
