@@ -12,7 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.hbourgeot.todotech.entities.Customers;
+import com.hbourgeot.todotech.entities.Orders;
 import com.hbourgeot.todotech.entities.Products;
+import com.hbourgeot.todotech.services.ICustomerService;
+import com.hbourgeot.todotech.services.IOrdersService;
 import com.hbourgeot.todotech.services.IProductsService;
 
 @Controller
@@ -25,9 +29,13 @@ public class MainController {
   private ClientRegistrationRepository clientRegistrationRepository;
 
   public IProductsService productsService;
+  public ICustomerService customerService;
+  public IOrdersService ordersService;
 
-  public MainController(IProductsService service) {
-    this.productsService = service;
+  public MainController(IProductsService pService, ICustomerService cService, IOrdersService oService) {
+    this.productsService = pService;
+    this.customerService = cService;
+    this.ordersService = oService;
   }
 
   @GetMapping(value = "/")
@@ -60,33 +68,44 @@ public class MainController {
   @GetMapping(value = "/dash/products")
   public String products(Model model) {
     model.addAttribute("productos", productsService.findAll());
-    model.addAttribute("title", "Todotech Store - Dash");
+    model.addAttribute("title", "Todotech Store - Products");
     return "all-products";
   }
-  
+
   @GetMapping(value = "/dash/customers")
-  public String customers() {
+  public String customers(Model model) {
+    model.addAttribute("customers", customerService.findAll());
+    model.addAttribute("title", "TodoTech Store - Customers");
     return "all-customers";
   }
 
   @GetMapping(value = "/dash/orders")
-  public String orders() {
+  public String orders(Model model) {
+    model.addAttribute("title", "TodoTech Store - Customers");
+    model.addAttribute("orders", ordersService.findAll());
     return "all-orders";
   }
-  
+
   @GetMapping(value = "/dash/products/add")
   public String addProducts(Model model) {
     model.addAttribute("product", new Products());
+    model.addAttribute("title", "TodoTech Store - Add Product");
     return "add-product";
   }
 
   @GetMapping(value = "/dash/customers/add")
-  public String addcustomers() {
+  public String addcustomers(Model model) {
+    model.addAttribute("user", new Customers());
+    model.addAttribute("title", "TodoTech Store - Add Customer");
     return "add-customer";
   }
 
   @GetMapping(value = "/dash/orders/add")
-  public String addorders() {
+  public String addorders(Model model) {
+    model.addAttribute("title", "TodoTech Store - Add Customer");
+    model.addAttribute("order", new Orders());
+    model.addAttribute("customers", customerService.findAll());
+    model.addAttribute("productos", productsService.findAll());
     return "add-order";
   }
 

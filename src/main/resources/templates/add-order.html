@@ -6,43 +6,81 @@
       <aside th:insert="layouts/sidebar"></aside>
       <main class="container">
         <h1>Añadir órden</h1>
-          <form>
-            <div class="form-floating mb-3">
-              <select class="form-select" id="cliente" name="cliente" required>
-                <option value="" selected disabled>
-                  Seleccione el cliente
-                </option>
-                <!-- Opciones del campo select -->
-              </select>
-              <label for="cliente">Cliente</label>
-            </div>
-            <div class="form-floating mb-3">
-              <select
-                class="form-select"
-                id="producto"
-                name="producto"
-                required
-              >
-                <option value="" selected disabled>
-                  Seleccione un producto a agregar
-                </option>
-                <!-- Opciones del campo select -->
-              </select>
-              <label for="producto">Producto</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input
-                type="number"
-                class="form-control"
-                id="costo"
-                name="costo"
-                readonly
-              />
-              <label for="costo">Costo Total</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-          </form>
+        <form method="post" th:action="@{/orders/add}" th:object="${order}">
+          <div class="form-floating mb-3">
+            <select class="form-select" id="cliente" th:field="*{customer}" required>
+              <option value="" selected disabled>Seleccione el cliente</option>
+              <option
+                th:value="${cliente.id}"
+                th:each="cliente : ${customers}"
+                th:text="${cliente.name}"
+              ></option>
+            </select>
+            <label for="cliente">Cliente</label>
+          </div>
+          <div class="h-auto mb-3">
+            <select class="form-select h-auto" id="productos" th:field="*{products}" multiple aria-label="Multiple select products" th:size="${productos.size() + 1}" required>
+              <option value="" selected disabled>
+                Seleccione los productos a agregar (Seleccione más de un producto con la tecla 'Ctrl')
+              </option>
+              <option
+                th:each="producto : ${productos}"
+                th:value="${producto.id}"
+                th:text="${producto.nombre}"
+                multiple
+              ></option>
+            </select>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              class="form-control"
+              id="costo"
+              th:field="*{totalCost}"
+              readonly
+            />
+            <label for="costo">Costo Total</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
       </main>
     </section>
+    <script>
+      document
+        .getElementById("productos")
+        .addEventListener("change", calculateTotalPrice);
+
+      async function calculateTotalPrice() {
+        let productSelect = document.getElementById("productos");
+        let totalPrice = 0;
+
+        for (var i = 0; i < productSelect.options.length; i++) {
+          if (productSelect.options[i].selected) {
+            var productId = productSelect.options[i].value;
+            var product = await getProductById(productId);
+            if (product) {
+              console.log(product);
+              totalPrice += product.price;
+            }
+          }
+        }
+        console.log();
+
+        document.getElementById("costo").value = totalPrice.toFixed(2);
+      }
+
+      async function getProductById(productId) {
+        try {
+          const response = await fetch(
+            "http://localhost:8080/api/products/" + productId
+          );
+          const product = await response.json();
+          return product;
+        } catch (error) {
+          console.log(error);
+          return null;
+        }
+      }
+    </script>
   </body>
 </html>

@@ -6,7 +6,7 @@
     <aside th:insert="layouts/sidebar"></aside>
     <main class="container mt-5">
         <h1>Añadir producto</h1>
-        <form enctype="multipart/form-data" method="post" th:action="@{/api/products/add}" th:object="${product}">
+        <form enctype="multipart/form-data" method="post" th:action="@{/products/add}" th:object="${product}">
             <div class="form-floating mb-3">
                 <input th:field="*{nombre}" type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre">
                 <label for="nombre">Nombre</label>
