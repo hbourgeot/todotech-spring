@@ -2,6 +2,8 @@ package com.hbourgeot.todotech.entities;
 
 import java.io.Serializable;
 
+import org.springframework.data.annotation.Transient;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +39,10 @@ public class Products implements Serializable {
 
   public String getNombre() {
     return nombre;
+  }
+
+   public String getNombreKebabString() {
+    return nombre.toLowerCase().replaceAll("[^a-z0-9]+", "-");
   }
 
   public void setNombre(String nombre) {

@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
 import com.hbourgeot.todotech.entities.Orders;
 import com.hbourgeot.todotech.services.IOrdersService;
 
-@RestController
+@Controller
 @RequestMapping(value = "/api/orders")
 public class OrdersController {
   public IOrdersService ordersService;

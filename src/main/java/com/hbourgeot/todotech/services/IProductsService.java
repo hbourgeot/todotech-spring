@@ -5,7 +5,7 @@ import com.hbourgeot.todotech.entities.Products;
 import java.util.List;
 
 public interface IProductsService {
-  public void save(Products product);
+  public Products save(Products product);
 
   public Products findById(Long id);
 

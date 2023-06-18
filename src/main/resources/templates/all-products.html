@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmins:th="http://www.thymeleaf.org">
+<head th:insert="layouts/head"/>
+<body>
+<section class="d-flex vh-100 align-items-center py-4 bg-body-tertiary">
+    <aside th:insert="layouts/sidebar"></aside>
+    <div class="container">
+        <h1>Productos</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card-group">
+                    <!-- Aquí empieza el bucle para mostrar los productos -->
+                    <div class="card" th:each="producto : ${productos}">
+                        <img th:src="${'/static/product-photos/'+producto.getNombreKebabString()+'/'+producto.getImageUrl()}" class="card-img-top card-img-top img-fluid" alt="Imagen del producto">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${producto.nombre}"></h5>
+                            <p class="card-text" th:text="${producto.description}"></p>
+                            <p class="card-text"><strong>Precio:</strong> <span th:text="${producto.price}"></span></p>
+                            <p class="card-text"><strong>Cantidad disponible:</strong> <span th:text="${producto.amount}"></span></p>
+                        </div>
+                    </div>
+                    <!-- Aquí termina el bucle -->
+                </div>
+            </div>
+        </div>
+        <div class="row" th:unless="${productos}">
+            <div class="col">
+                <p>No existen productos.</p>
+            </div>
+        </div>
+
+        <a href="/dash/products/add" class="btn btn-primary btn-lg position-fixed top-0 end-0 mt-3 me-3">Añadir Producto</a>
+
+</body>
+</html>

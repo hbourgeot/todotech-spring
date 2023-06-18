@@ -12,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.hbourgeot.todotech.entities.Products;
+import com.hbourgeot.todotech.services.IProductsService;
+
 @Controller
 public class MainController {
 
@@ -20,6 +23,12 @@ public class MainController {
 
   @Autowired
   private ClientRegistrationRepository clientRegistrationRepository;
+
+  public IProductsService productsService;
+
+  public MainController(IProductsService service) {
+    this.productsService = service;
+  }
 
   @GetMapping(value = "/")
   public String index() {
@@ -49,10 +58,12 @@ public class MainController {
   }
 
   @GetMapping(value = "/dash/products")
-  public String products() {
+  public String products(Model model) {
+    model.addAttribute("productos", productsService.findAll());
+    model.addAttribute("title", "Todotech Store - Dash");
     return "all-products";
   }
-
+  
   @GetMapping(value = "/dash/customers")
   public String customers() {
     return "all-customers";
@@ -62,9 +73,10 @@ public class MainController {
   public String orders() {
     return "all-orders";
   }
-
+  
   @GetMapping(value = "/dash/products/add")
-  public String addProducts() {
+  public String addProducts(Model model) {
+    model.addAttribute("product", new Products());
     return "add-product";
   }
 

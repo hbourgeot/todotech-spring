@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmins:th="http://www.thymeleaf.org">
+  <head th:insert="layouts/head" />
+  <body>
+    <section class="d-flex vh-100 align-items-center py-4 bg-body-tertiary">
+      <aside th:insert="layouts/sidebar"></aside>
+       <div class="container">
+        <h1>Órdenes</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Número de Orden</th>
+                    <th>Cliente</th>
+                    <th>Productos Registrados</th>
+                    <th>Costo Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí empieza el bucle para mostrar las órdenes -->
+                <tr th:each="orden : ${ordenes}">
+                    <td th:text="${orden.numeroOrden}"></td>
+                    <td th:text="${orden.cliente}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="producto : ${orden.productos}" th:text="${producto}"></li>
+                        </ul>
+                    </td>
+                    <td th:text="${orden.costoTotal}"></td>
+                </tr>
+                <!-- Aquí termina el bucle -->
+            </tbody>
+        </table>
+        <div class="row" th:unless="${ordenes}">
+            <div class="col">
+                <p>No existen órdenes.</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="/dash/orders/add" class="btn btn-primary btn-lg position-fixed top-0 end-0 mt-3 me-3">Añadir Orden</a>
+    </section>
+  </body>
+</html>
