@@ -13,12 +13,12 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/").permitAll();
             auth.requestMatchers("/static/**").permitAll();
-            auth.requestMatchers("/oauth_login").permitAll();
+            auth.requestMatchers("/login").permitAll();
             auth.anyRequest().authenticated();
         })
                 .oauth2Login(oauth -> {
                     oauth.defaultSuccessUrl("/dash");
-                    oauth.loginPage("/oauth_login");
+                    oauth.loginPage("/login");
                 })
                 .formLogin(login -> {
                     login.disable();

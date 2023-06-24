@@ -43,7 +43,7 @@ public class MainController {
     return "index";
   }
 
-  @GetMapping("/oauth_login")
+  @GetMapping("/login")
   public String getLoginPage(Model model) {
     Iterable<ClientRegistration> clientRegistrations = null;
     ResolvableType type = ResolvableType.forInstance(clientRegistrationRepository)
@@ -110,17 +110,25 @@ public class MainController {
   }
 
   @GetMapping(value = "/dash/products/{id}")
-  public String getProductsById(@PathVariable Long id) {
-    return "get-product";
+  public String getProductsById(Model model, @PathVariable Long id) {
+    Products product = productsService.findById(id);
+    if(product != null){
+      model.addAttribute("product", product);
+      model.addAttribute("title", "TodoTech Store - " + product.getNombre());
+      return "get-product";
+    }
+    return "redirect:/dash/products";
   }
 
   @GetMapping(value = "/dash/customers/{id}")
-  public String getcustomersById(@PathVariable Long id) {
-    return "get-customer";
-  }
+  public String getcustomersById(Model model, @PathVariable Long id) {
+    Customers customer = customerService.findById(id);
+    if(customer!= null){
+      model.addAttribute("user", customer);
+      model.addAttribute("title", "TodoTech Store - " + customer.getName());
+      return "get-customer";
+    }
 
-  @GetMapping(value = "/dash/orders/{id}")
-  public String getordersById(@PathVariable Long id) {
-    return "get-order";
+    return "redirect:/dash/customers";
   }
 }

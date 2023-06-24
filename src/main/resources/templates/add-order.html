@@ -8,7 +8,12 @@
         <h1>Añadir órden</h1>
         <form method="post" th:action="@{/orders/add}" th:object="${order}">
           <div class="form-floating mb-3">
-            <select class="form-select" id="cliente" th:field="*{customer}" required>
+            <select
+              class="form-select"
+              id="cliente"
+              th:field="*{customer}"
+              required
+            >
               <option value="" selected disabled>Seleccione el cliente</option>
               <option
                 th:value="${cliente.id}"
@@ -19,17 +24,38 @@
             <label for="cliente">Cliente</label>
           </div>
           <div class="h-auto mb-3">
-            <select class="form-select h-auto" id="productos" th:field="*{products}" multiple aria-label="Multiple select products" th:size="${productos.size() + 1}" required>
+            <select
+              class="form-select h-auto"
+              id="productos"
+              th:field="*{products}"
+              multiple
+              aria-label="Multiple select products"
+              th:size="${productos.size() + 1}"
+              required
+            >
               <option value="" selected disabled>
-                Seleccione los productos a agregar (Seleccione más de un producto con la tecla 'Ctrl')
+                Seleccione los productos a agregar (Seleccione más de un
+                producto con la tecla 'Ctrl')
               </option>
               <option
                 th:each="producto : ${productos}"
                 th:value="${producto.id}"
+                th:if="${producto.amount > 0}"
                 th:text="${producto.nombre}"
                 multiple
               ></option>
             </select>
+          </div>
+          <div id="input-container"></div>
+          <div class="form-floating mb-3">
+            <textarea
+              class="form-control"
+              id="descripcion"
+              th:field="*{description}"
+              style="resize: vertical; height: 100px"
+              readonly
+            ></textarea>
+            <label for="descripcion">Descripción</label>
           </div>
           <div class="form-floating mb-3">
             <input
@@ -41,32 +67,87 @@
             />
             <label for="costo">Costo Total</label>
           </div>
+          <input
+            type="hidden"
+            id="order-product-quantity"
+            th:attr="data-product-quantity=${order.productQuantity}"
+          />
           <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
       </main>
     </section>
-    <script>
+    <script th:inline="javascript">
       document
         .getElementById("productos")
-        .addEventListener("change", calculateTotalPrice);
+        .addEventListener("change", updateOrderDescription);
+        
+      const inputContainer = document.getElementById("input-container");
 
-      async function calculateTotalPrice() {
-        let productSelect = document.getElementById("productos");
-        let totalPrice = 0;
+      let totalCost = 0;
+      let description = "";
 
-        for (var i = 0; i < productSelect.options.length; i++) {
-          if (productSelect.options[i].selected) {
-            var productId = productSelect.options[i].value;
-            var product = await getProductById(productId);
-            if (product) {
-              console.log(product);
-              totalPrice += product.price;
-            }
+      async function updateOrderDescription() {
+        const productSelect = document.getElementById("productos");
+        const selectedOptions = Array.from(productSelect.selectedOptions);
+
+        inputContainer.innerHTML = "";
+
+        for (const option of selectedOptions) {
+          const productId = option.value;
+          const product = await getProductById(productId);
+
+          if (product) {
+            const inputId = `cantidad_${productId}`;
+            const inputLabel = `Cantidad para ${product.nombre}: `;
+            const inputElement = document.createElement("input");
+
+            inputElement.type = "number";
+            inputElement.id = inputId;
+            inputElement.min = "1";
+            inputElement.placeholder = inputLabel;
+            inputElement.classList.add("form-control");
+            inputElement.addEventListener("input", () =>
+              updateProductData(productId)
+            );
+
+            const inputWrapper = document.createElement("div");
+            inputWrapper.classList.add("form-floating", "mb-3");
+            inputWrapper.appendChild(inputElement);
+
+            const labelElement = document.createElement("label");
+            labelElement.htmlFor = inputId;
+            labelElement.textContent = inputLabel;
+
+            inputWrapper.appendChild(labelElement);
+            inputContainer.appendChild(inputWrapper);
           }
         }
-        console.log();
+      }
 
-        document.getElementById("costo").value = totalPrice.toFixed(2);
+      async function updateProductData(productId) {
+        const cantidadInput = document.getElementById(`cantidad_${productId}`);
+        const cantidad = parseInt(cantidadInput.value);
+
+        const product = await getProductById(productId);
+
+        if (product && !isNaN(cantidad) && cantidad > 0) {
+          const subtotal = cantidad * product.price;
+          totalCost += subtotal;
+          description += `${cantidad}x ${product.nombre}: $${subtotal.toFixed(
+            2
+          )}\n`;
+        }
+
+        document.getElementById("costo").value = totalCost.toFixed(2);
+        document.getElementById("descripcion").value = description;
+
+        if (!isNaN(cantidad) && cantidad > 0) {
+          const hiddenInput = document.createElement("input");
+          hiddenInput.type = "hidden";
+          hiddenInput.name = "productQuantity";
+          hiddenInput.value = cantidad;
+          inputContainer.appendChild(hiddenInput);
+        }
       }
 
       async function getProductById(productId) {
@@ -75,7 +156,7 @@
             "http://localhost:8080/api/products/" + productId
           );
           const product = await response.json();
-          return product;
+          return await product;
         } catch (error) {
           console.log(error);
           return null;

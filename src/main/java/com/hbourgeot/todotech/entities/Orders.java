@@ -3,14 +3,7 @@ package com.hbourgeot.todotech.entities;
 import java.io.Serializable;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "orders")
@@ -21,6 +14,8 @@ public class Orders implements Serializable{
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   public Long id;
 
+  public String description;
+
   @ManyToOne
   public Customers customer;
 
@@ -29,6 +24,9 @@ public class Orders implements Serializable{
 
   @Column(name = "total_cost")
   public Double totalCost;
+
+  @Transient
+  private List<Integer> productQuantity;
 
   public Long getId() {
     return id;
@@ -62,5 +60,19 @@ public class Orders implements Serializable{
     this.totalCost = totalCost;
   }
 
-  
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public List<Integer> getProductQuantity() {
+    return productQuantity;
+  }
+
+  public void setProductQuantity(List<Integer> productQuantity) {
+    this.productQuantity = productQuantity;
+  }
 }

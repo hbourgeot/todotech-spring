@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmins:th="http://www.thymeleaf.org">
+<head th:insert="layouts/head"/>
+<body>
+<section class="d-flex vh-100 align-items-center py-4 bg-body-tertiary">
+    <aside th:insert="layouts/sidebar"></aside>
+    <main class="container mt-5">
+        <h1>Añadir producto</h1>
+        <form enctype="multipart/form-data" method="post" th:action="@{/products/add}" th:object="${product}">
+            <div class="form-floating mb-3">
+                <input th:field="*{nombre}" type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre">
+                <label for="nombre">Nombre</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="file" class="form-control" id="imagen" name="image">
+                <label for="imagen">Imagen</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input th:field="*{price}" type="number" class="form-control" id="precio" name="price" placeholder="Ingrese el precio">
+                <label for="precio">Precio</label>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea th:field="*{description}" class="form-control" id="descripcion" name="description" rows="3" placeholder="Ingrese una descripción"></textarea>
+                <label for="descripcion">Descripción</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input th:field="*{amount}" type="number" class="form-control" id="cantidad" name="amoubt" placeholder="Ingrese la cantidad">
+                <label for="cantidad">Cantidad</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </main>
+</section>
+</body>
+</html>
