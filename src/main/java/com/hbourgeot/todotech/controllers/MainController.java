@@ -1,6 +1,7 @@
 package com.hbourgeot.todotech.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,11 @@ public class MainController {
   }
 
   @GetMapping(value = "/")
-  public String index() {
+
+  public String index(Model model) {
+    List<Products> products= productsService.findAvalaible();
+    model.addAttribute("title","TodoTech Store");
+    model.addAttribute("products", products);
     return "index";
   }
 
