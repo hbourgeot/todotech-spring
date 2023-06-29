@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmins:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head th:insert="layouts/head :: head" />
   <body>
     <nav th:insert="layouts/nav :: nav"></nav>
@@ -13,6 +13,7 @@
       <div class="row row-cols-1 row-cols-md-2 col-8 g-4">
         <div th:each="product : ${products}" class="col-md-4 mb-4">
           <div class="card h-100 product-card">
+            <a th:href="@{/product/{productId}(productId=${product.id})}" class="stretched-link"></a>
             <img
               th:src="${'/static/product-photos/'+product.getNombreKebabString()+'/'+product.getImageUrl()}"
               class="card-img-top"

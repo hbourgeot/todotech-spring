@@ -40,12 +40,19 @@ public class MainController {
   }
 
   @GetMapping(value = "/")
-
   public String index(Model model) {
     List<Products> products= productsService.findAvalaible();
     model.addAttribute("title","TodoTech Store");
     model.addAttribute("products", products);
     return "index";
+  }
+
+  @GetMapping(value = "/product/{id}")
+  public String getProduct(Model model, @PathVariable Long id){
+    Products product = productsService.findById(id);
+    model.addAttribute("title", product.getNombre() + " - Todotech Store");
+    model.addAttribute("product", product);
+    return "product";
   }
 
   @GetMapping("/login")
