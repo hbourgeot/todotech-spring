@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TodotechApplication {
 
+	// starts spring
 	public static void main(String[] args) {
 		SpringApplication.run(TodotechApplication.class, args);
 	}

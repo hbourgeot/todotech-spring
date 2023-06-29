@@ -1,5 +1,6 @@
 package com.hbourgeot.todotech.controllers;
 
+// imports
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,12 +21,15 @@ import com.hbourgeot.todotech.services.ICustomerService;
 import com.hbourgeot.todotech.services.IOrdersService;
 import com.hbourgeot.todotech.services.IProductsService;
 
+//main controller of the app
 @Controller
 public class MainController {
 
+  // variables
   private static String authorizationRequestBaseUri = "oauth2/authorization";
   Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
 
+  // services
   @Autowired
   private ClientRegistrationRepository clientRegistrationRepository;
 
@@ -33,11 +37,14 @@ public class MainController {
   public ICustomerService customerService;
   public IOrdersService ordersService;
 
+  // constructor
   public MainController(IProductsService pService, ICustomerService cService, IOrdersService oService) {
     this.productsService = pService;
     this.customerService = cService;
     this.ordersService = oService;
   }
+
+  // methods
 
   @GetMapping(value = "/")
   public String index(Model model) {
