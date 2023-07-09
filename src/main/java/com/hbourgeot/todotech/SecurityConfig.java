@@ -15,7 +15,7 @@ public class SecurityConfig {
 
     //define a method of security
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> {
+        http.csrf(csrf -> {csrf.disable();}).headers(header -> header.frameOptions(opt -> opt.disable())).authorizeHttpRequests(auth -> {
             // not protected paths
             auth.requestMatchers("/login").permitAll();
             auth.requestMatchers("/").permitAll();
@@ -23,6 +23,7 @@ public class SecurityConfig {
             auth.requestMatchers("/swagger-ui/**").permitAll();
             auth.requestMatchers("/static/**").permitAll();
             auth.requestMatchers("/api/**").permitAll();
+            auth.requestMatchers("/h2-console/**").permitAll();
 
             // any other request must be authenticated
             auth.anyRequest().authenticated();
